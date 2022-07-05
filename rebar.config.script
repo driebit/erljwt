@@ -1,0 +1,12 @@
+% from: https://rebar3.readme.io/docs/from-rebar-2x-to-rebar3
+case erlang:function_exported(rebar3, main, 1) of
+    true -> % rebar3
+        CONFIG;
+    false -> % rebar 2.x or older
+        %% Rebuild deps, possibly including those that have been moved to
+        %% profiles
+        [{deps, [
+                 {base64url, ".*", {git, "https://github.com/potatosalad/erlang-base64url"}},
+                 {jsone, ".*", {git, "https://github.com/sile/jsone"}}
+        ]} | lists:keydelete(deps, 1, CONFIG)]
+end.
